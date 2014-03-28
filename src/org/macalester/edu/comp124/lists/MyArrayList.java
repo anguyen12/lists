@@ -47,8 +47,8 @@ public class MyArrayList<E> {
 	 * @return
 	 */
 	public E get(int index) {
-        return null;    // replace this line with the correct code.
-	}
+        return elements[index];
+    } // replace this line with the correct code.
 	
 	/**
 	 * Adds a new element to the end of the list:
@@ -60,7 +60,14 @@ public class MyArrayList<E> {
 	 * @param elem
 	 */
 	public void add(E elem) {
-	}
+
+        if (currentSize >= elements.length) {
+            expandSize();
+        }
+            elements[currentSize] = elem;
+
+        currentSize++;
+    }
 
 	/**
 	 * Inserts a new element at the specified index.
@@ -74,7 +81,23 @@ public class MyArrayList<E> {
 	 * @param elem
 	 */
 	public void add(int index, E elem) {
-	}
+
+        if (currentSize == elements.length)
+            //grow by at least one
+            expandSize();
+
+        for (int i = currentSize; i >= index; i--)
+        {
+            elements[i] = elements[i-1];
+        }
+        // Insert new element to data[index]
+        elements[index] = elem;
+
+        // Increase size by 1
+        currentSize++;
+
+
+    }
 	
 	/**
 	 * Doubles the size of the array, copies the old elements
@@ -83,9 +106,19 @@ public class MyArrayList<E> {
 	 * 
 	 * This will be useful for both versions of add().
      * Hint: use newArrayOfE!
-	 */
+     * @param i
+     */
 	private void expandSize() {
-	}
+
+        E[] temp= newArrayOfE(elements.length + 1);
+        for(int i = 0; i < elements.length; i++)
+           {
+                temp[i]= elements[i];
+           }
+            elements = temp;
+
+
+    }
 	
 	/**
 	 * Due to some crazy Java constraints, we can't simply create a
@@ -95,7 +128,7 @@ public class MyArrayList<E> {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private E[] newArrayOfE(int capacity) {
+	public E[] newArrayOfE(int capacity) {
 		return (E[])new Object[capacity];
 	}
 }
